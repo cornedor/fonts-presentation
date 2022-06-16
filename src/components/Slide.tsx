@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode } from "react";
 import { config } from "../config";
 
 const SlideWrapper = styled.div`
