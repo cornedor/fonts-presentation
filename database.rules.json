@@ -1,0 +1,10 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "currentSlide": {
+      ".write": true,
+      ".read": true
+    }
+  }
+}
