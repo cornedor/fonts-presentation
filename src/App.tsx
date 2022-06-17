@@ -1,6 +1,9 @@
 import styled from "@emotion/styled";
-import React, { ReactNode, useState } from "react";
+import { onValue, ref } from "firebase/database";
+import React, { ReactNode, useEffect, useState } from "react";
 import { Slide } from "./components/Slide";
+import { database } from "./firebase";
+import { Remote } from "./Remote";
 import { S1Comp } from "./slides/S1-intro/S1Comp";
 import S2Svg from "./slides/S2-typetjes/S2Svg";
 import { S3Comp } from "./slides/S3-Fonts/S3Comp";
@@ -34,12 +37,26 @@ const slides: Record<number, ReactNode> = {
   ),
 };
 
+const currentSlideRef = ref(database, "/currentSlide");
+
 function App() {
   const [slide, setSlide] = useState(0);
+
+  useEffect(() => {
+    onValue(currentSlideRef, (snapshot) => {
+      const data = snapshot.val();
+      setSlide(Number(data));
+    });
+  }, []);
+
+  if (window.location.pathname === "/remote") {
+    return <Remote />;
+  }
+
   return (
     <>
       {slides[slide] ?? <div>Oh, dat was het al</div>}
-      {slides[slide + 1] ?? null}
+      <>{slides[slide + 1] ?? null}</>
       <Controls>
         <button onClick={() => setSlide((i) => i + 1)}>next</button>
       </Controls>
