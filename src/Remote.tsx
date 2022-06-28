@@ -6,7 +6,7 @@ import { useCurrentSlide } from "./useCurrentSlide";
 
 const RemoteBoard = styled.div`
   background: #444;
-  padding: 40px;
+  padding: 30px;
   border-radius: 40px;
   flex: 1;
   display: flex;
@@ -24,7 +24,7 @@ const NextPrev = styled.div`
 
 const RemoteWrapper = styled.div`
   background: #222;
-  padding: 40px;
+  padding: 10px;
   position: absolute;
   top: 0;
   left: 0;
