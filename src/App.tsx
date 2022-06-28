@@ -44,6 +44,11 @@ const slides: Record<number, ReactNode> = {
       <S6Comp visible={false} />
     </Slide>
   ),
+  7: (
+    <Slide background="wheat" key="6">
+      <S6Comp visible={true} />
+    </Slide>
+  ),
 };
 
 function App() {

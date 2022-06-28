@@ -5,6 +5,7 @@ import { config } from "../../config";
 
 const image = require("./Slide6.jpg");
 const specimen = require("./Specimen.png");
+const gutenberg = require("./Gutenberg.png");
 
 const Image = styled.img`
   position: absolute;
@@ -19,7 +20,7 @@ const kf = keyframes`
   0% {
     transform: rotateX(49deg) translateX(576px);
   }
-  50% {
+  100% {
     transform: rotateX(0deg) translateX(0px);
   }
 `;
@@ -32,7 +33,25 @@ const Specimen = styled(Image)`
   height: 584px;
 
   animation: ${kf} 2s ease;
-  animation-delay: 7000ms;
+  animation-fill-mode: both;
+`;
+const gkf = keyframes`
+    0% {
+      transform: rotateX(49deg) translateX(576px) rotateZ(2deg);
+    }
+    100% {
+      transform: rotateX(0deg) translateX(0px) rotateZ(2deg);
+    }
+  `;
+const Gutenberg = styled(Image)`
+  position: absolute;
+  width: 425px;
+  height: 592px;
+  left: 575.23px;
+  top: 38.25px;
+
+  animation: ${gkf} 2s ease;
+  animation-delay: 1000ms;
   animation-fill-mode: both;
 `;
 
@@ -66,7 +85,7 @@ const Subtext = styled(Text)`
   top: 645px;
 
   animation: ${down} 1s ease;
-  animation-delay: 8000ms;
+  animation-delay: 1800ms;
   animation-fill-mode: both;
 `;
 
@@ -74,10 +93,16 @@ export const S6Comp = ({ visible }: { visible: boolean }) => (
   <Slide>
     <Image src={image} alt="" />
 
-    <Subtext font={"EB Garamond"} size={20} weight={FontWeights.SemiBold}>
-      Printed by William Caslon, letter founder; from the 1728 Cyclopaedia.
-    </Subtext>
+    <Gutenberg src={gutenberg} alt="" />
 
-    <Specimen src={specimen} alt="" />
+    {visible && (
+      <>
+        <Subtext font={"EB Garamond"} size={20} weight={FontWeights.SemiBold}>
+          Printed by William Caslon, letter founder; from the 1728 Cyclopaedia.
+        </Subtext>
+
+        <Specimen src={specimen} alt="" />
+      </>
+    )}
   </Slide>
 );
