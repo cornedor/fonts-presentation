@@ -27,6 +27,7 @@ const Scaler = styled.section`
 const colors = {
   white: "#fff",
   wheat: "#F5F0DF",
+  red: "#FF0000",
 };
 
 export interface SlideProps {

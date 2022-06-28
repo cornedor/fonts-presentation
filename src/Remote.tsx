@@ -2,13 +2,20 @@ import styled from "@emotion/styled";
 import { ref, runTransaction, set } from "@firebase/database";
 import { useCallback } from "react";
 import { database } from "./firebase";
-import RemoteNextIcon from "./RemoteNextIcon";
 
 const RemoteBoard = styled.div`
   background: #444;
   padding: 40px;
   border-radius: 40px;
   flex: 1;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 20px;
+`;
+
+const NextPrev = styled.div`
   display: flex;
   align-items: center;
   gap: 20px;
@@ -36,7 +43,8 @@ const Button = styled.button`
   height: 80px;
 
   border-radius: 40px;
-  font-family: monospace;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
 
   font-size: 49px;
   > svg {
@@ -63,6 +71,16 @@ export function Remote() {
       return current + 1;
     });
   }, []);
+
+  const handlePrev = useCallback(() => {
+    runTransaction(currentSlideRef, (current) => {
+      if (current == null) {
+        return 1;
+      }
+      return current - 1;
+    });
+  }, []);
+
   const handleReset = useCallback(() => {
     // eslint-disable-next-line no-restricted-globals
     if (confirm("U sure?")) {
@@ -70,13 +88,22 @@ export function Remote() {
     }
   }, []);
 
+  const handleBuzz = useCallback(() => {
+    navigator.vibrate([200, 100, 200]);
+  }, []);
+
   return (
     <RemoteWrapper>
       <RemoteBoard>
-        <Button onClick={handleNext}>
-          <RemoteNextIcon />
-        </Button>
-        <Button onClick={handleReset}>R</Button>
+        <NextPrev>
+          <Button onClick={handleReset}>M</Button>
+          <Button onClick={handleBuzz}>B</Button>
+        </NextPrev>
+        <NextPrev>
+          <Button onClick={handlePrev}>-</Button>
+          <Button onClick={handleReset}>R</Button>
+          <Button onClick={handleNext}>+</Button>
+        </NextPrev>
       </RemoteBoard>
     </RemoteWrapper>
   );
