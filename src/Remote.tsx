@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
 import { ref, runTransaction, set } from "@firebase/database";
-import { useCallback } from "react";
+import { ReactNode, useCallback, useEffect, useState } from "react";
 import { database } from "./firebase";
+import { useCurrentSlide } from "./useCurrentSlide";
 
 const RemoteBoard = styled.div`
   background: #444;
@@ -37,6 +38,7 @@ const Button = styled.button`
   border: 6px solid #6a6a6a;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25),
     inset 0px 1px 4px 1px rgba(255, 255, 255, 0.25);
+  padding: 0;
 
   color: white;
   width: 80px;
@@ -45,8 +47,8 @@ const Button = styled.button`
   border-radius: 40px;
   font-family: "Montserrat", sans-serif;
   font-weight: 600;
-
   font-size: 49px;
+
   > svg {
     margin-top: 10px;
   }
@@ -60,9 +62,40 @@ const Button = styled.button`
   }
 `;
 
+const Notes = styled.div`
+  flex: 1;
+  color: white;
+  font-family: "EB Garamond";
+  font-size: 18px;
+  font-weight: 500;
+`;
+
+const CompactList = styled.ul`
+  padding: 0;
+`;
+
+const Time = styled.div`
+  color: white;
+  margin-top: -20px;
+`;
+
 const currentSlideRef = ref(database, "/currentSlide");
 
+const notes: Record<number, ReactNode> = {
+  6: (
+    <CompactList>
+      <li>1450 Johannes Gutenberg, Gutenbergbijbel.</li>
+      <li>Niet de eerste boekdrukkunst, blokdruk bestond al.</li>
+      <li>1239/1240 al losse letters in Korea. Daarvoor China.</li>
+    </CompactList>
+  ),
+};
+
 export function Remote() {
+  const slide = useCurrentSlide();
+  const [startTime, setStartTime] = useState<Date>(new Date());
+  const [time, setTime] = useState<string>("N/A");
+
   const handleNext = useCallback(() => {
     runTransaction(currentSlideRef, (current) => {
       if (current == null) {
@@ -92,13 +125,33 @@ export function Remote() {
     navigator.vibrate([200, 100, 200]);
   }, []);
 
+  const handleTime = useCallback(() => {
+    setStartTime(new Date());
+  }, []);
+
+  useEffect(() => {
+    let interval = setInterval(() => {
+      const diff = Date.now() - startTime.getTime();
+      const diffDate = new Date(diff);
+      const str = Intl.DateTimeFormat("nl", {
+        minute: "numeric",
+        second: "numeric",
+      });
+      setTime(str.format(diffDate));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [startTime]);
+
   return (
     <RemoteWrapper>
       <RemoteBoard>
+        <Time>{time}</Time>
         <NextPrev>
+          <Button onClick={handleTime}>T</Button>
           <Button onClick={handleReset}>M</Button>
           <Button onClick={handleBuzz}>B</Button>
         </NextPrev>
+        <Notes>{slide in notes ? notes[slide] : null}</Notes>
         <NextPrev>
           <Button onClick={handlePrev}>-</Button>
           <Button onClick={handleReset}>R</Button>
