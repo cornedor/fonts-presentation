@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { push, ref, serverTimestamp, set } from "firebase/database";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { Helmet } from "react-helmet";
 import { database } from "./firebase";
 
@@ -65,7 +65,8 @@ const EmojiBox = styled.button`
   font-size: 50px;
 `;
 
-const EmojiBoxes = styled.div`
+const EmojiBoxes = styled.div<{ disabled: boolean }>`
+  pointer-events: ${(props) => (props.disabled ? "none" : "all")};
   display: flex;
   gap: 23px;
   flex-wrap: wrap;
@@ -75,6 +76,7 @@ const EmojiBoxes = styled.div`
 export const emojiRef = ref(database, "emoji");
 
 export function Join() {
+  const [disabled, setDisabled] = useState(false);
   const addEmoji = useCallback((emoji: string) => {
     return () => {
       const ref = push(emojiRef);
@@ -82,6 +84,11 @@ export function Join() {
         emoji,
         timestamp: serverTimestamp(),
       });
+
+      setDisabled(true);
+      setTimeout(() => {
+        setDisabled(false);
+      }, 200);
     };
   }, []);
 
@@ -104,7 +111,7 @@ export function Join() {
         leuk dat je mee wilt doen. Om je zelf straks terug te zien in de
         presentatie kan je hier een nickname en avater kiezen.
       </Info>
-      <EmojiBoxes>
+      <EmojiBoxes disabled={disabled}>
         <EmojiBox onClick={addEmoji("😂")}>😂</EmojiBox>
         <EmojiBox onClick={addEmoji("🔥")}>🔥</EmojiBox>
         <EmojiBox onClick={addEmoji("🤮")}>🤮</EmojiBox>

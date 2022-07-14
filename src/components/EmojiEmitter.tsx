@@ -19,7 +19,11 @@ export function EmojiEmitter() {
     const unsub = onChildAdded(emojiRef, (data) => {
       const key = data.key;
       const value = data.val();
-      setEmoji((c) => [...c, [String(key), value.emoji]]);
+
+      setEmoji((c) => {
+        const rest = c.slice(c.length - 50);
+        return [...rest, [String(key), value.emoji]];
+      });
     });
 
     return unsub;
