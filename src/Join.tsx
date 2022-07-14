@@ -56,6 +56,7 @@ const EmojiBox = styled.button`
   height: 75px;
   left: 25px;
   top: 269px;
+  padding: 0;
 
   background: #1c1c1c;
   border: 2px solid #ffffff;

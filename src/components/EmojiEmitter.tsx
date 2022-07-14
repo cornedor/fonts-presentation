@@ -16,12 +16,15 @@ const Emitter = styled.div`
 export function EmojiEmitter() {
   const [emoji, setEmoji] = useState<Array<[string, string]>>([]);
   useEffect(() => {
-    onChildAdded(emojiRef, (data) => {
+    const unsub = onChildAdded(emojiRef, (data) => {
       const key = data.key;
       const value = data.val();
       setEmoji((c) => [...c, [String(key), value.emoji]]);
     });
+
+    return unsub;
   }, []);
+
   return (
     <Emitter>
       {emoji.map(([key, value]) => (
