@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
+import { EmojiEmitter } from "./components/EmojiEmitter";
 import { Slide } from "./components/Slide";
+import { Join } from "./Join";
 import { Remote } from "./Remote";
 import { S1Comp } from "./slides/S1-intro/S1Comp";
 import S2Svg from "./slides/S2-typetjes/S2Svg";
@@ -58,8 +60,13 @@ function App() {
     return <Remote />;
   }
 
+  if (window.location.pathname === "/join") {
+    return <Join />;
+  }
+
   return (
     <>
+      <EmojiEmitter />
       {slides[slide] ?? <div>Oh, dat was het al</div>}
       <>{slides[slide + 1] ?? null}</>
     </>
