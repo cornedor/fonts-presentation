@@ -8,6 +8,7 @@ import S2Svg from "./slides/S2-typetjes/S2Svg";
 import { S4Comp } from "./slides/S4-Word/S4Comp";
 import { S5Comp } from "./slides/S5-Warning/S5Comp";
 import { S6Comp } from "./slides/S6-History/S6Comp";
+import { S99Comp } from "./slides/S99-Cheee/S99Comp";
 import { useCurrentSlide } from "./useCurrentSlide";
 
 const slides: Record<number, ReactNode> = {
@@ -49,6 +50,11 @@ const slides: Record<number, ReactNode> = {
   7: (
     <Slide background="wheat" key="6">
       <S6Comp visible={true} />
+    </Slide>
+  ),
+  19: (
+    <Slide background="wheat" key={7}>
+      <S99Comp visible={true} />
     </Slide>
   ),
 };
