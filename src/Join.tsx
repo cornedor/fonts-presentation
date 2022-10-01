@@ -232,7 +232,7 @@ function Input() {
           )}
         </>
       );
-    case 29:
+    case 30:
       return (
         <>
           <Title>Pick one</Title>
