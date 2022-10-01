@@ -1,10 +1,6 @@
-import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
-import { FontWeights, Text } from "../../components/Text";
-import { config } from "../../config";
+import { useEffect } from "react";
 import gsap from "gsap";
-import { useCurrentSlide } from "../../useCurrentSlide";
 
 const Slide = styled.div`
   overflow: hidden;

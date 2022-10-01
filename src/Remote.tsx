@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { ref, runTransaction, set } from "@firebase/database";
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import { database } from "./firebase";
+import { emojiRef } from "./Join";
 import { useCurrentSlide } from "./useCurrentSlide";
 
 const RemoteBoard = styled.div`
@@ -84,9 +85,16 @@ const currentSlideRef = ref(database, "/currentSlide");
 const notes: Record<number, ReactNode> = {
   6: (
     <CompactList>
-      <li>1450 Johannes Gutenberg, Gutenbergbijbel.</li>
+      <li>Eerste boekdrukkunst in 1450 Johannes Gutenberg, Gutenbergbijbel.</li>
       <li>Niet de eerste boekdrukkunst, blokdruk bestond al.</li>
       <li>1239/1240 al losse letters in Korea. Daarvoor China.</li>
+    </CompactList>
+  ),
+  22: (
+    <CompactList>
+      <li>Ligatuur</li>
+      <li>f + b, f, l, k, h</li>
+      <li>f + i, j</li>
     </CompactList>
   ),
 };
@@ -142,13 +150,17 @@ export function Remote() {
     return () => clearInterval(interval);
   }, [startTime]);
 
+  const handleResetEmoji = useCallback(() => {
+    set(emojiRef, null);
+  }, []);
+
   return (
     <RemoteWrapper>
       <RemoteBoard>
         <Time>{time}</Time>
         <NextPrev>
           <Button onClick={handleTime}>T</Button>
-          <Button onClick={handleReset}>M</Button>
+          <Button onClick={handleResetEmoji}>🧽</Button>
           <Button onClick={handleBuzz}>B</Button>
         </NextPrev>
         <Notes>{slide in notes ? notes[slide] : null}</Notes>

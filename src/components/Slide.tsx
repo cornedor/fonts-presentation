@@ -21,6 +21,7 @@ const Scaler = styled.section`
   background: wheat;
   transform: scale(${config.scale});
   position: relative;
+  transition: background 0.4s ease;
   /* transform-origin: 0 0; */
 `;
 
@@ -28,6 +29,7 @@ const colors = {
   white: "#fff",
   wheat: "#F5F0DF",
   red: "#FF0000",
+  black: "#000000",
 };
 
 export interface SlideProps {
