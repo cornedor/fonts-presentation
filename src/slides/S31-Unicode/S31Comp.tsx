@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { MoveIn } from "../../animations/MoveIn";
 import { Text, FontWeights } from "../../components/Text";
 import { config } from "../../config";
 

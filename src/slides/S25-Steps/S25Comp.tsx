@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
-import gsap from "gsap";
 import { onValue, ref } from "firebase/database";
 import { database } from "../../firebase";
 
