@@ -96,6 +96,7 @@ const Form = styled.form`
 export const emojiRef = ref(database, "emoji");
 export const fontsRef = ref(database, "fonts");
 export const ligRef = ref(database, "ligs");
+export const zininRef = ref(database, "zinin");
 
 function Input() {
   const slide = useCurrentSlide();
@@ -105,6 +106,9 @@ function Input() {
   );
   const [ligDisabled, setLigDisabled] = useState(
     localStorage.getItem("ligDisabled") === "true"
+  );
+  const [zininDisabled, setZininDisabled] = useState(
+    localStorage.getItem("zininDisabled") === "true"
   );
 
   const addEmoji = useCallback((emoji: string) => {
@@ -158,8 +162,48 @@ function Input() {
     },
     [ligDisabled]
   );
+  const handleSubmitZinin = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      if (zininDisabled) {
+        return;
+      }
+      const data = new FormData(e.currentTarget);
+      setZininDisabled(true);
+      localStorage.setItem("zininDisabled", "true");
+
+      const ref = push(zininRef);
+      set(ref, {
+        font: data.get("font"),
+        timestamp: serverTimestamp(),
+      });
+    },
+    [zininDisabled]
+  );
 
   switch (slide) {
+    case -1:
+      return (
+        <>
+          <Title>Nog even geduld...</Title>
+          <Info>De presentatie zal zo starten. Heb je er al zin in?</Info>
+          {zininDisabled ? (
+            <Info>Bedankt voor je antwoord!</Info>
+          ) : (
+            <Form onSubmit={handleSubmitZinin}>
+              <FontItem>
+                <input type="radio" value="ja" name="font" />
+                Ja
+              </FontItem>
+              <FontItem>
+                <input type="radio" value="nee" name="font" />
+                Nee
+              </FontItem>
+              <NextButton>Lets go!</NextButton>
+            </Form>
+          )}
+        </>
+      );
     case 22:
       return (
         <>
@@ -177,11 +221,11 @@ function Input() {
                 <input type="radio" value="w" name="font" />w
               </FontItem>
               <FontItem>
-                <input type="radio" value="SourceSerif" name="font" />
+                <input type="radio" value="Emoji" name="font" />
                 👨‍👨‍👧‍👦
               </FontItem>
               <FontItem>
-                <input type="radio" value="Inconsolata" name="font" />ß
+                <input type="radio" value="ß" name="font" />ß
               </FontItem>
               <NextButton>Lets go!</NextButton>
             </Form>

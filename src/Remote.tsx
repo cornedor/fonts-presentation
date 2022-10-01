@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
 import { ref, runTransaction, set } from "@firebase/database";
-import { onValue } from "firebase/database";
+import { DatabaseReference, onValue } from "firebase/database";
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import { database } from "./firebase";
-import { emojiRef, fontsRef, ligRef } from "./Join";
+import { emojiRef, fontsRef, ligRef, zininRef } from "./Join";
 import { weightRef } from "./slides/S25-Steps/S25Comp";
 import { useCurrentSlide } from "./useCurrentSlide";
 
@@ -84,40 +84,11 @@ const Time = styled.div`
 
 const currentSlideRef = ref(database, "/currentSlide");
 
-function FontVotes() {
+function Votes({ fbRef }: { fbRef: DatabaseReference }) {
   const [votes, setVotes] = useState<[string, number][]>([]);
 
   useEffect(() => {
-    onValue(fontsRef, (snap) => {
-      const data = snap.val();
-      const values = Object.values(data) as Array<{ font: string }>;
-
-      const votes: Record<string, number> = {};
-      values.forEach((item) => {
-        votes[item.font] = (votes[item.font] ?? 0) + 1;
-      });
-      setVotes(Object.entries(votes));
-    });
-  }, []);
-
-  return (
-    <div>
-      <div>Votes:</div>
-      <CompactList>
-        {votes.map((item) => (
-          <li>
-            {item[0]}: {item[1]}
-          </li>
-        ))}
-      </CompactList>
-    </div>
-  );
-}
-function LigVotes() {
-  const [votes, setVotes] = useState<[string, number][]>([]);
-
-  useEffect(() => {
-    onValue(ligRef, (snap) => {
+    onValue(fbRef, (snap) => {
       const data = snap.val();
       const values = Object.values(data) as Array<{ font: string }>;
 
@@ -144,6 +115,7 @@ function LigVotes() {
 }
 
 const notes: Record<number, ReactNode> = {
+  [-1]: <Votes fbRef={zininRef} />,
   6: (
     <CompactList>
       <li>Eerste boekdrukkunst in 1450 Johannes Gutenberg, Gutenbergbijbel.</li>
@@ -159,7 +131,7 @@ const notes: Record<number, ReactNode> = {
         <li>f + i, j</li>
         <li>Wat is nog meer een ligatuur?</li>
       </CompactList>
-      <LigVotes />
+      <Votes fbRef={ligRef} />
     </>
   ),
   24: (
@@ -170,8 +142,8 @@ const notes: Record<number, ReactNode> = {
       <li>Handwritten</li>
     </CompactList>
   ),
-  29: <FontVotes />,
-  30: <FontVotes />,
+  29: <Votes fbRef={fontsRef} />,
+  30: <Votes fbRef={fontsRef} />,
   32: (
     <div>
       <input
