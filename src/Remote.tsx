@@ -3,6 +3,7 @@ import { ref, runTransaction, set } from "@firebase/database";
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import { database } from "./firebase";
 import { emojiRef } from "./Join";
+import { weightRef } from "./slides/S25-Steps/S25Comp";
 import { useCurrentSlide } from "./useCurrentSlide";
 
 const RemoteBoard = styled.div`
@@ -97,6 +98,30 @@ const notes: Record<number, ReactNode> = {
       <li>f + i, j</li>
     </CompactList>
   ),
+  24: (
+    <CompactList>
+      <li>Serif, Sans Serif, Monospace, Slab Serif</li>
+      <li>Monospace</li>
+      <li>Display</li>
+      <li>Handwritten</li>
+    </CompactList>
+  ),
+  32: (
+    <div>
+      <input
+        style={{ marginTop: 80, width: "350px" }}
+        type="range"
+        min="200"
+        max="900"
+        onInput={(e) => {
+          set(weightRef, Number(e.currentTarget.value));
+        }}
+      />
+      <CompactList>
+        <li>Show arms of f and t</li>
+      </CompactList>
+    </div>
+  ),
 };
 
 export function Remote() {
@@ -157,7 +182,9 @@ export function Remote() {
   return (
     <RemoteWrapper>
       <RemoteBoard>
-        <Time>{time}</Time>
+        <Time>
+          {time} / {slide}
+        </Time>
         <NextPrev>
           <Button onClick={handleTime}>T</Button>
           <Button onClick={handleResetEmoji}>🧽</Button>
