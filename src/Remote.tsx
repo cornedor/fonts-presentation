@@ -1,8 +1,9 @@
 import styled from "@emotion/styled";
 import { ref, runTransaction, set } from "@firebase/database";
+import { onValue } from "firebase/database";
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import { database } from "./firebase";
-import { emojiRef } from "./Join";
+import { emojiRef, fontsRef, ligRef } from "./Join";
 import { weightRef } from "./slides/S25-Steps/S25Comp";
 import { useCurrentSlide } from "./useCurrentSlide";
 
@@ -83,6 +84,65 @@ const Time = styled.div`
 
 const currentSlideRef = ref(database, "/currentSlide");
 
+function FontVotes() {
+  const [votes, setVotes] = useState<[string, number][]>([]);
+
+  useEffect(() => {
+    onValue(fontsRef, (snap) => {
+      const data = snap.val();
+      const values = Object.values(data) as Array<{ font: string }>;
+
+      const votes: Record<string, number> = {};
+      values.forEach((item) => {
+        votes[item.font] = (votes[item.font] ?? 0) + 1;
+      });
+      setVotes(Object.entries(votes));
+    });
+  }, []);
+
+  return (
+    <div>
+      <div>Votes:</div>
+      <CompactList>
+        {votes.map((item) => (
+          <li>
+            {item[0]}: {item[1]}
+          </li>
+        ))}
+      </CompactList>
+    </div>
+  );
+}
+function LigVotes() {
+  const [votes, setVotes] = useState<[string, number][]>([]);
+
+  useEffect(() => {
+    onValue(ligRef, (snap) => {
+      const data = snap.val();
+      const values = Object.values(data) as Array<{ font: string }>;
+
+      const votes: Record<string, number> = {};
+      values.forEach((item) => {
+        votes[item.font] = (votes[item.font] ?? 0) + 1;
+      });
+      setVotes(Object.entries(votes));
+    });
+  }, []);
+
+  return (
+    <div>
+      <div>Votes:</div>
+      <CompactList>
+        {votes.map((item) => (
+          <li>
+            {item[0]}: {item[1]}
+          </li>
+        ))}
+      </CompactList>
+    </div>
+  );
+}
+
 const notes: Record<number, ReactNode> = {
   6: (
     <CompactList>
@@ -92,11 +152,15 @@ const notes: Record<number, ReactNode> = {
     </CompactList>
   ),
   22: (
-    <CompactList>
-      <li>Ligatuur</li>
-      <li>f + b, f, l, k, h</li>
-      <li>f + i, j</li>
-    </CompactList>
+    <>
+      <CompactList>
+        <li>Ligatuur</li>
+        <li>f + b, f, l, k, h</li>
+        <li>f + i, j</li>
+        <li>Wat is nog meer een ligatuur?</li>
+      </CompactList>
+      <LigVotes />
+    </>
   ),
   24: (
     <CompactList>
@@ -106,6 +170,8 @@ const notes: Record<number, ReactNode> = {
       <li>Handwritten</li>
     </CompactList>
   ),
+  29: <FontVotes />,
+  30: <FontVotes />,
   32: (
     <div>
       <input
@@ -206,6 +272,7 @@ export function Remote() {
 
   const handleResetEmoji = useCallback(() => {
     set(emojiRef, null);
+    set(fontsRef, null);
   }, []);
 
   return (

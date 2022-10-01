@@ -35,8 +35,14 @@ import { S29Comp } from "./slides/S29-EnotE/S29Comp";
 import S30Svg from "./slides/S30-Rare/S30Svg";
 import { S31Comp } from "./slides/S31-Unicode/S31Comp";
 import { S32Comp } from "./slides/S32-Books/S32Comp";
+import { S0Comp } from "./slides/S0-Start/S0Comp";
 
 const slides: Record<number, ReactNode> = {
+  [-1]: (
+    <Slide background="white" key="0">
+      <S0Comp />
+    </Slide>
+  ),
   0: (
     <Slide background="white" key="0">
       <S1Comp visible={false} />

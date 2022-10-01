@@ -1,8 +1,9 @@
 import styled from "@emotion/styled";
 import { push, ref, serverTimestamp, set } from "firebase/database";
-import { useCallback, useState } from "react";
+import { FormEvent, useCallback, useState } from "react";
 import { Helmet } from "react-helmet";
 import { database } from "./firebase";
+import { useCurrentSlide } from "./useCurrentSlide";
 
 const Background = styled.div`
   background: black;
@@ -73,10 +74,39 @@ const EmojiBoxes = styled.div<{ disabled: boolean }>`
   justify-content: center;
 `;
 
-export const emojiRef = ref(database, "emoji");
+const FontItem = styled.label`
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  display: block;
+  padding: 10px;
 
-export function Join() {
+  input {
+    width: 20px;
+    height: 20px;
+    margin-right: 40px;
+  }
+`;
+
+const Form = styled.form`
+  padding-bottom: 60px;
+`;
+
+export const emojiRef = ref(database, "emoji");
+export const fontsRef = ref(database, "fonts");
+export const ligRef = ref(database, "ligs");
+
+function Input() {
+  const slide = useCurrentSlide();
   const [disabled, setDisabled] = useState(false);
+  const [fontDisabled, setFontDisabled] = useState(
+    localStorage.getItem("fontDisabled") === "true"
+  );
+  const [ligDisabled, setLigDisabled] = useState(
+    localStorage.getItem("ligDisabled") === "true"
+  );
+
   const addEmoji = useCallback((emoji: string) => {
     return () => {
       const ref = push(emojiRef);
@@ -92,6 +122,161 @@ export function Join() {
     };
   }, []);
 
+  const handleSubmitFont = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      if (fontDisabled) {
+        return;
+      }
+      const data = new FormData(e.currentTarget);
+      setFontDisabled(true);
+      localStorage.setItem("fontDisabled", "true");
+
+      const ref = push(fontsRef);
+      set(ref, {
+        font: data.get("font"),
+        timestamp: serverTimestamp(),
+      });
+    },
+    [fontDisabled]
+  );
+  const handleSubmitLig = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      if (ligDisabled) {
+        return;
+      }
+      const data = new FormData(e.currentTarget);
+      setLigDisabled(true);
+      localStorage.setItem("ligDisabled", "true");
+
+      const ref = push(ligRef);
+      set(ref, {
+        font: data.get("font"),
+        timestamp: serverTimestamp(),
+      });
+    },
+    [ligDisabled]
+  );
+
+  switch (slide) {
+    case 22:
+      return (
+        <>
+          <Title>Pick one</Title>
+          <Info>Wat is nog meer een ligatuur?</Info>
+          {ligDisabled ? (
+            <Info>Bedankt voor je antwoord!</Info>
+          ) : (
+            <Form onSubmit={handleSubmitLig}>
+              <FontItem>
+                <input type="radio" value="sp" name="font" />
+                sp
+              </FontItem>
+              <FontItem>
+                <input type="radio" value="w" name="font" />w
+              </FontItem>
+              <FontItem>
+                <input type="radio" value="SourceSerif" name="font" />
+                👨‍👨‍👧‍👦
+              </FontItem>
+              <FontItem>
+                <input type="radio" value="Inconsolata" name="font" />ß
+              </FontItem>
+              <NextButton>Lets go!</NextButton>
+            </Form>
+          )}
+        </>
+      );
+    case 29:
+      return (
+        <>
+          <Title>Pick one</Title>
+          <Info>Welk font vind jij het mooist?</Info>
+          {fontDisabled ? (
+            <Info>Bedankt voor je stem!</Info>
+          ) : (
+            <Form onSubmit={handleSubmitFont}>
+              <FontItem>
+                <input type="radio" value="Source Serif" name="font" />
+                Source Serif
+              </FontItem>
+              <FontItem>
+                <input type="radio" value="SourceSerif" name="font" />
+                Arial
+              </FontItem>
+              <FontItem>
+                <input type="radio" value="Inconsolata" name="font" />
+                Inconsolata
+              </FontItem>
+              <FontItem>
+                <input type="radio" value="Slabo" name="font" />
+                Slabo
+              </FontItem>
+              <FontItem>
+                <input type="radio" value="Garamond" name="font" />
+                Garamond
+              </FontItem>
+              <FontItem>
+                <input type="radio" value="Verdana" name="font" />
+                Verdana
+              </FontItem>
+              <FontItem>
+                <input type="radio" value="Monofett" name="font" />
+                Monofett
+              </FontItem>
+              <FontItem>
+                <input type="radio" value="Sacramento" name="font" />
+                Sacramento
+              </FontItem>
+              <FontItem>
+                <input type="radio" value="Marcellus" name="font" />
+                Marcellus
+              </FontItem>
+              <FontItem>
+                <input type="radio" value="Alata" name="font" />
+                Alata
+              </FontItem>
+              <FontItem>
+                <input type="radio" value="PT Mono" name="font" />
+                PT Mono
+              </FontItem>
+              <FontItem>
+                <input type="radio" value="Ewert" name="font" />
+                Ewert
+              </FontItem>
+              <NextButton>Lets go!</NextButton>
+            </Form>
+          )}
+        </>
+      );
+
+    default:
+      return (
+        <>
+          <Title>Engagement!</Title>
+          <Info>
+            Leuk dat je meedoet met de presentatie! Je kan me live feedback
+            geven door Emoji te sturen.
+          </Info>
+          <EmojiBoxes disabled={disabled}>
+            <EmojiBox onClick={addEmoji("😂")}>😂</EmojiBox>
+            <EmojiBox onClick={addEmoji("🔥")}>🔥</EmojiBox>
+            <EmojiBox onClick={addEmoji("🤮")}>🤮</EmojiBox>
+            <EmojiBox onClick={addEmoji("🚀")}>🚀</EmojiBox>
+            <EmojiBox onClick={addEmoji("👎")}>👎</EmojiBox>
+            <EmojiBox onClick={addEmoji("❤️")}>❤️</EmojiBox>
+            <EmojiBox onClick={addEmoji("🕵️‍♂️")}>🕵️‍♂️</EmojiBox>
+            <EmojiBox onClick={addEmoji("🥱")}>🥱</EmojiBox>
+            <EmojiBox onClick={addEmoji("🫡")}>🫡</EmojiBox>
+            <EmojiBox onClick={addEmoji("🪂")}>🪂</EmojiBox>
+          </EmojiBoxes>
+        </>
+      );
+  }
+}
+
+export function Join() {
   return (
     <Background>
       <Helmet>
@@ -106,25 +291,8 @@ export function Join() {
           rel="stylesheet"
         ></link>
       </Helmet>
-      <Title>Awesome!</Title>
-      <Info>
-        leuk dat je mee wilt doen. Om je zelf straks terug te zien in de
-        presentatie kan je hier een nickname en avater kiezen.
-      </Info>
-      <EmojiBoxes disabled={disabled}>
-        <EmojiBox onClick={addEmoji("😂")}>😂</EmojiBox>
-        <EmojiBox onClick={addEmoji("🔥")}>🔥</EmojiBox>
-        <EmojiBox onClick={addEmoji("🤮")}>🤮</EmojiBox>
-        <EmojiBox onClick={addEmoji("🚀")}>🚀</EmojiBox>
-        <EmojiBox onClick={addEmoji("👎")}>👎</EmojiBox>
-        <EmojiBox onClick={addEmoji("❤️")}>❤️</EmojiBox>
-        <EmojiBox onClick={addEmoji("🕵️‍♂️")}>🕵️‍♂️</EmojiBox>
-        <EmojiBox onClick={addEmoji("🥱")}>🥱</EmojiBox>
-        <EmojiBox onClick={addEmoji("🫡")}>🫡</EmojiBox>
-        <EmojiBox onClick={addEmoji("🪂")}>🪂</EmojiBox>
-      </EmojiBoxes>
 
-      <NextButton>Lets go!</NextButton>
+      <Input />
     </Background>
   );
 }
