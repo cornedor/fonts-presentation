@@ -153,7 +153,7 @@ const notes: Record<number, ReactNode> = {
       <Votes fbRef={ligRef} />
     </>
   ),
-  24: (
+  25: (
     <CompactList>
       <li>Serif, Sans Serif, Monospace, Slab Serif</li>
       <li>Monospace</li>
