@@ -36,6 +36,7 @@ import S30Svg from "./slides/S30-Rare/S30Svg";
 import { S31Comp } from "./slides/S31-Unicode/S31Comp";
 import { S32Comp } from "./slides/S32-Books/S32Comp";
 import { S0Comp } from "./slides/S0-Start/S0Comp";
+import { S20b1Comp } from "./slides/S20.1-Kerning/S20-1Comp";
 
 const slides: Record<number, ReactNode> = {
   [-1]: (
@@ -159,101 +160,111 @@ const slides: Record<number, ReactNode> = {
     </Slide>
   ),
   23: (
+    <Slide background="wheat" key="14">
+      <S20b1Comp />
+    </Slide>
+  ),
+  24: (
     <Slide background="wheat" key="15">
       <S21Comp visible />
     </Slide>
   ),
-  24: (
-    <Slide background="wheat" key="16">
-      <S22Svg step={0} />
-    </Slide>
-  ),
   25: (
     <Slide background="wheat" key="16">
-      <S22Svg step={1} />
+      <S22Svg step={0} />
     </Slide>
   ),
   26: (
     <Slide background="wheat" key="16">
-      <S22Svg step={2} />
+      <S22Svg step={1} />
     </Slide>
   ),
   27: (
     <Slide background="wheat" key="16">
-      <S22Svg step={3} />
+      <S22Svg step={2} />
     </Slide>
   ),
   28: (
     <Slide background="wheat" key="16">
-      <S22Svg step={4} />
+      <S22Svg step={3} />
     </Slide>
   ),
   29: (
     <Slide background="wheat" key="16">
-      <S22Svg step={0} />
+      <S22Svg step={4} />
     </Slide>
   ),
   30: (
+    <Slide background="wheat" key="16">
+      <S22Svg step={0} />
+    </Slide>
+  ),
+  31: (
     <Slide background="white" key="17">
       <S23Comp visible />
     </Slide>
   ),
-  31: (
+  32: (
     <Slide background="wheat" key="18">
       <S24Comp />
     </Slide>
   ),
-  32: (
+  33: (
     <Slide background="wheat" key="18">
       <S25Comp />
     </Slide>
   ),
-  33: (
+  34: (
     <Slide background="wheat" key="19">
       <></>
     </Slide>
   ),
-  34: (
+  35: (
     <Slide background="white" key="19">
       <S26Comp visible={true} />
     </Slide>
   ),
-  35: (
+  36: (
     <Slide background="white" key="19">
       <S27Comp visible={true} />
     </Slide>
   ),
-  36: (
+  37: (
     <Slide background="white" key="19">
       <S28Comp visible={false} />
     </Slide>
   ),
-  37: (
+  38: (
     <Slide background="white" key="19">
       <S28Comp visible={true} />
     </Slide>
   ),
-  38: (
+  39: (
     <Slide background="wheat" key="19">
       <S29Comp />
     </Slide>
   ),
-  39: (
-    <Slide background="wheat" key="20">
-      <S30Svg />
-    </Slide>
-  ),
   40: (
-    <Slide background="wheat" key="20">
-      <S31Comp visible={false} />
+    <Slide background="wheat" key="19">
+      <S29Comp visible />
     </Slide>
   ),
   41: (
     <Slide background="wheat" key="20">
-      <S31Comp visible={true} />
+      <S30Svg />
     </Slide>
   ),
   42: (
+    <Slide background="wheat" key="20">
+      <S31Comp visible={false} />
+    </Slide>
+  ),
+  43: (
+    <Slide background="wheat" key="20">
+      <S31Comp visible={true} />
+    </Slide>
+  ),
+  44: (
     <Slide background="black" key="21">
       <S32Comp />
     </Slide>

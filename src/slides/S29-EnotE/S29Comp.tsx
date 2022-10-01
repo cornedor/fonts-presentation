@@ -51,12 +51,22 @@ const E2 = styled.div`
   animation-iteration-count: infinite;
 `;
 
-export function S29Comp() {
+const Image = styled.img`
+  position: absolute;
+  width: 831px;
+  height: 768px;
+  left: 96px;
+  top: 0px;
+  object-fit: cover;
+`;
+
+export function S29Comp({ visible }: { visible?: boolean }) {
   return (
     <div>
       <Title>ễ wel maar ɇ niet</Title>
       <E1>ễ</E1>
       <E2>ɇ</E2>
+      {visible && <Image src={require("./Slice1.jpg")} />}
     </div>
   );
 }

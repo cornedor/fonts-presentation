@@ -98,7 +98,7 @@ function Votes({ fbRef }: { fbRef: DatabaseReference }) {
       });
       setVotes(Object.entries(votes));
     });
-  }, []);
+  }, [fbRef]);
 
   return (
     <div>
