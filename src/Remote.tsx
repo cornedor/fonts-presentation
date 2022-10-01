@@ -122,6 +122,35 @@ const notes: Record<number, ReactNode> = {
       </CompactList>
     </div>
   ),
+  37: (
+    <CompactList>
+      <li>Screenshot source sans 3, paar slides terug</li>
+      <li>Zie al deze lege vakjes</li>
+      <li>Ik wou daar eerst oneidigheids teken gebruiken</li>
+    </CompactList>
+  ),
+  38: (
+    <CompactList>
+      <li>Zoals je ziet lijken deze twee e's niet op elkaar</li>
+      <li>Het font mist die letter</li>
+      <li>Dat komt omdat die letter rare is.</li>
+    </CompactList>
+  ),
+  39: (
+    <CompactList>
+      <li>Maar het kan veel erger</li>
+      <li>Een aantal weken geleden kwam ik dit character en qoute tegen</li>
+      <li>Discussie over dit character</li>
+    </CompactList>
+  ),
+  41: (
+    <CompactList>
+      <li>Heroglieven, inclusief missende of deels missende characters</li>
+      <li>Het combineren er van.</li>
+      <li>Oude talen en dialecten, en het combineren er van</li>
+      <li>Moderene talen, waar dialecten afwijken</li>
+    </CompactList>
+  ),
 };
 
 export function Remote() {

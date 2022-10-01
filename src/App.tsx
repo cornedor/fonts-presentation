@@ -27,8 +27,14 @@ import { S6Comp } from "./slides/S6-History/S6Comp";
 import { S7Comp } from "./slides/S7-History/S7Comp";
 import { S8Comp } from "./slides/S8-Relevance/S8Comp";
 import { S9Comp } from "./slides/S9-Relevance/S9Comp";
-import { S99Comp } from "./slides/S99-Cheee/S99Comp";
+import { S26Comp } from "./slides/S26-Cheee/S26Comp";
 import { useCurrentSlide } from "./useCurrentSlide";
+import { S28Comp } from "./slides/S28-Complicated/S28Comp";
+import { S27Comp } from "./slides/S27-Wow/S27Comp";
+import { S29Comp } from "./slides/S29-EnotE/S29Comp";
+import S30Svg from "./slides/S30-Rare/S30Svg";
+import { S31Comp } from "./slides/S31-Unicode/S31Comp";
+import { S32Comp } from "./slides/S32-Books/S32Comp";
 
 const slides: Record<number, ReactNode> = {
   0: (
@@ -203,7 +209,47 @@ const slides: Record<number, ReactNode> = {
   ),
   34: (
     <Slide background="white" key="19">
-      <S99Comp visible={true} />
+      <S26Comp visible={true} />
+    </Slide>
+  ),
+  35: (
+    <Slide background="white" key="19">
+      <S27Comp visible={true} />
+    </Slide>
+  ),
+  36: (
+    <Slide background="white" key="19">
+      <S28Comp visible={false} />
+    </Slide>
+  ),
+  37: (
+    <Slide background="white" key="19">
+      <S28Comp visible={true} />
+    </Slide>
+  ),
+  38: (
+    <Slide background="wheat" key="19">
+      <S29Comp />
+    </Slide>
+  ),
+  39: (
+    <Slide background="wheat" key="20">
+      <S30Svg />
+    </Slide>
+  ),
+  40: (
+    <Slide background="wheat" key="20">
+      <S31Comp visible={false} />
+    </Slide>
+  ),
+  41: (
+    <Slide background="wheat" key="20">
+      <S31Comp visible={true} />
+    </Slide>
+  ),
+  42: (
+    <Slide background="black" key="21">
+      <S32Comp />
     </Slide>
   ),
 };

@@ -48,7 +48,7 @@ const CheeeShine = styled.div`
   -webkit-text-stroke: 2px #000;
 `;
 
-export const S99Comp = ({ visible }: { visible?: boolean }) => {
+export const S26Comp = ({ visible }: { visible?: boolean }) => {
   useEffect(() => {
     const run = gsap.to("html", {
       "--yest": 1000,
